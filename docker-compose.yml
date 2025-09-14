@@ -1,5 +1,16 @@
 version: '3.9'
 services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: callshield
+      POSTGRES_PASSWORD: callshield
+      POSTGRES_DB: callshield
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
   api:
     image: python:3.11
     working_dir: /code
@@ -8,3 +19,5 @@ services:
     command: bash -c "pip install -r requirements.txt && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     ports:
       - "8000:8000"
+volumes:
+  dbdata:

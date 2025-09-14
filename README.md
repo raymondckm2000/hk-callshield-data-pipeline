@@ -15,3 +15,13 @@ A modular pipeline for collecting Hong Kong scam and nuisance phone numbers. The
 python -m pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
+
+## Docker Compose
+
+An example `docker-compose.yml` is provided to start both the API and a local Postgres database:
+
+```bash
+docker-compose up
+```
+
+The database is exposed on `localhost:5432` with the user, password and database name all set to `callshield`.
