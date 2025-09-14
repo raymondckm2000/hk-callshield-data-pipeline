@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS phones (
+    number TEXT PRIMARY KEY,
+    source TEXT NOT NULL,
+    score INTEGER,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
