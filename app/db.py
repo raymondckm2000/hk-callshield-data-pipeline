@@ -1,19 +1,24 @@
-import sqlite3
+"""Database connection helpers."""
+
 from contextlib import contextmanager
 
-from .config import settings
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
+from .config import DATABASE_URL
 
 
-def get_connection() -> sqlite3.Connection:
-    conn = sqlite3.connect(settings.DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+def get_connection() -> psycopg2.extensions.connection:
+    """Create a new database connection using the configured URL."""
+    return psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
 
 
 @contextmanager
 def get_db():
+    """Context manager yielding a database connection."""
     conn = get_connection()
     try:
         yield conn
     finally:
         conn.close()
+
