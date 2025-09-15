@@ -1,17 +1,17 @@
 """Orchestrates the ETL workflow."""
 
+import asyncio
+
 from . import normalizer, scorer, publisher
-from .sources import hkpf_scameter, hkma_alerts, sfc_alerts
+from .sources._fixtures import fake_items
 
 
-def run() -> None:
-    records: list[dict] = []
-    for src in (hkpf_scameter, hkma_alerts, sfc_alerts):
-        records.extend(src.fetch())
+async def run() -> None:
+    records = fake_items()
     records = normalizer.normalize(records)
     records = scorer.score(records)
-    publisher.publish(records)
+    publisher.publish_delta(records)
 
 
 if __name__ == "__main__":
-    run()
+    asyncio.run(run())
