@@ -17,3 +17,6 @@ app/public/snapshots/*
 !app/public/snapshots/.gitkeep
 app/public/delta/*
 !app/public/delta/.gitkeep
+app/public/ios/*
+!app/public/ios/.gitkeep
+app/public/latest.json
