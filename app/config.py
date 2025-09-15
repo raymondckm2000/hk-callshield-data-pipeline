@@ -1,17 +1,26 @@
-from pydantic import BaseSettings
+"""Application configuration settings."""
+
+from dotenv import load_dotenv
+import os
 
 
-class Settings(BaseSettings):
-    """Application configuration loaded from environment variables."""
+# Load environment variables from a .env file if present
+load_dotenv()
 
-    DB_PATH: str = "./app.db"
+# Database connection URL
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://callshield:callshield@localhost:5432/callshield",
+)
 
-    class Config:
-        env_file = ".env"
+# FastAPI host and port configuration
+API_HOST = os.getenv("API_HOST", "0.0.0.0")
+API_PORT = int(os.getenv("API_PORT", "8080"))
 
+# Directory for published artifacts
+PUBLISH_DIR = os.getenv("PUBLISH_DIR", "app/public")
 
-def get_settings() -> Settings:
-    return Settings()
+# Miscellaneous ETL settings
+IOS_CHUNK_SIZE = int(os.getenv("IOS_CHUNK_SIZE", "50000"))
+DELTA_MAX_LOOKBACK_DAYS = int(os.getenv("DELTA_MAX_LOOKBACK_DAYS", "7"))
 
-
-settings = get_settings()
